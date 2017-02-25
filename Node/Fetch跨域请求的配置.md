@@ -76,7 +76,8 @@ res.set({
 
 ##### method
 请求的http方法，通常为get或post
-
+##### body（String，body types） - HTTP请求主体
+##### headers（Object，Headers） - 默认值：{}
 #### credentials
 > 认证凭证模式。默认："omit"
 > 
