@@ -1,3 +1,5 @@
+let number = 0;
+
 function quick(array) {
   if (array.length <= 1) return array;
 
@@ -9,6 +11,7 @@ function quick(array) {
   const value = array.splice(index, 1)[0];
 
   for (let i = 0; i < array.length; i++) {
+    number++;
     if (array[i] < value) {
       left.push(array[i]);
     } else {
@@ -20,4 +23,10 @@ function quick(array) {
   return quick(left).concat(value, quick(right));
 }
 
-console.log(quick([43, 31, 97, 66, 48]));
+const arrays = [];
+for (var i = 0; i < 100000; i++) {
+  arrays.push(Math.floor(Math.random() * 100) + 1);
+}
+
+console.log(quick(arrays));
+console.log(number);
