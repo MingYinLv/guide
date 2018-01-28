@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .map {
+            position: relative;
+        }
+
+        .box {
+            width: 50px;
+            height: 50px;
+            background: #000;
+            position: absolute;
+        }
+
+        .box.red {
+            background: red;
+        }
+
+        .cursor {
+            position: absolute;
+            z-index: 999;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            top: 20px;
+            left: 20px;
+            transition: all 1s;
+        }
+    </style>
+</head>
+<body>
+
+<div class="map">
+    <div class="cursor"></div>
+</div>
+
+<script src="./FindRoad.js"></script>
+<script>
+  const mapDom = document.querySelector('.map');
+
+  map.forEach((n, i) => {
+    n.forEach((m, j) => {
+      mapDom.innerHTML += `<div style="left:${j * 50}px;top:${i * 50}px" class="box ${m === 1 ? 'red' : ''}"></div>`;
+    });
+  });
+  const cursor = document.querySelector('.cursor');
+
+  function nextFunc(i) {
+    if (i >= result.length) return;
+
+    cursor.style.top = (result[i][0] * 50 + 20) + 'px';
+    cursor.style.left = (result[i][1] * 50 + 20) + 'px';
+    setTimeout(function(){
+      nextFunc(i+1);
+    }, 1000);
+  }
+
+  setTimeout(function(){
+    nextFunc(0);
+  }, 1000);
+</script>
+</body>
+</html>
