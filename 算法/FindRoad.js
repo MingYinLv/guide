@@ -29,9 +29,9 @@ const next = [
 
 let p = 3, // 目标x
     q = 2, // 目标y
-    n = 4,
-    m = 5,
-    min = 99;
+    n = book.length,
+    m = book[0].length,
+    min = 99999;
 
 function dfs(x, y, step) {
     let tx = 0, ty = 0;
@@ -50,6 +50,7 @@ function dfs(x, y, step) {
         if (tx < 0 || tx >= n || ty < 0 || ty >= m) continue;
 
         if (map[tx][ty] === 0 && !book[tx][ty]) {
+            console.log(tx, ty, step);
             book[tx][ty] = 1;
             minBook.push([tx, ty]);
             dfs(tx, ty, step + 1);

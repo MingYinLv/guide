@@ -19,6 +19,10 @@
             background: red;
         }
 
+        .box.ok{
+            background: aquamarine;
+        }
+
         .cursor {
             position: absolute;
             z-index: 999;
@@ -28,7 +32,7 @@
             border-radius: 50%;
             top: 20px;
             left: 20px;
-            transition: all 1s;
+            transition: all 300ms;
         }
     </style>
 </head>
@@ -38,30 +42,102 @@
     <div class="cursor"></div>
 </div>
 
-<script src="./FindRoad.js"></script>
 <script>
-  const mapDom = document.querySelector('.map');
+    const map = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1], [0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0], [0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1], [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1], [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1], [0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1]];
 
-  map.forEach((n, i) => {
-    n.forEach((m, j) => {
-      mapDom.innerHTML += `<div style="left:${j * 50}px;top:${i * 50}px" class="box ${m === 1 ? 'red' : ''}"></div>`;
+    const book = [];
+
+    for (let i = 0; i < map.length; i++) {
+        for (let j = 0; j < map[i].length; j++) {
+            book[i] = book[i] || [];
+            book[i][j] = 0;
+        }
+    }
+
+    const allBook = [];
+    const minBook = [];
+    let result = [];
+
+    const next = [
+        [0, 1],
+        [1, 0],
+        [0, -1],
+        [-1, 0],
+    ];
+
+    let p = 13, // 目标x
+        q = 14, // 目标y
+        n = book.length,
+        m = book[0].length,
+        min = 99999;
+
+    let isOk = false;
+
+    function dfs(x, y, step) {
+        if (isOk) return;
+        let tx = 0, ty = 0;
+        if (x === p && y === q) {
+            if (step < min) {
+                isOk = true;
+                min = step;
+                result = JSON.parse(JSON.stringify(minBook));
+            }
+            return;
+        }
+
+        for (let i = 0; i < next.length; i++) {
+            tx = x + next[i][0];
+            ty = y + next[i][1];
+            // 越界
+            if (tx < 0 || tx >= n || ty < 0 || ty >= m) continue;
+
+            if (map[tx][ty] === 0 && !book[tx][ty]) {
+                console.log(tx, ty, step);
+                book[tx][ty] = 1;
+                minBook.push([tx, ty]);
+                if (!isOk) {
+                    allBook.push([tx, ty]);
+                }
+                dfs(tx, ty, step + 1);
+                if (!isOk) {
+                    allBook.push([tx, ty]);
+                }
+                minBook.pop();
+                book[tx][ty] = 0;
+            }
+        }
+    }
+
+    function find() {
+        book[0][0] = 1; // 起始坐标
+        dfs(0, 0, 0);
+        console.log(min, result, allBook);
+    }
+
+    find();
+</script>
+<script>
+    const mapDom = document.querySelector('.map');
+
+    map.forEach((n, i) => {
+        n.forEach((m, j) => {
+            mapDom.innerHTML += `<div style="left:${j * 50}px;top:${i * 50}px" class="box ${m === 1 ? 'red' : ''} ${i===p && j===q ? 'ok' : ''}"></div>`;
+        });
     });
-  });
-  const cursor = document.querySelector('.cursor');
+    const cursor = document.querySelector('.cursor');
 
-  function nextFunc(i) {
-    if (i >= result.length) return;
+    function nextFunc(i, runBook) {
+        if (i >= runBook.length) return;
+        cursor.style.top = (runBook[i][0] * 50 + 20) + 'px';
+        cursor.style.left = (runBook[i][1] * 50 + 20) + 'px';
+        setTimeout(function () {
+            nextFunc(i + 1, runBook);
+        }, 300);
+    }
 
-    cursor.style.top = (result[i][0] * 50 + 20) + 'px';
-    cursor.style.left = (result[i][1] * 50 + 20) + 'px';
-    setTimeout(function(){
-      nextFunc(i+1);
-    }, 1000);
-  }
-
-  setTimeout(function(){
-    nextFunc(0);
-  }, 1000);
+    setTimeout(function () {
+        nextFunc(0, result);
+    }, 300);
 </script>
 </body>
 </html>

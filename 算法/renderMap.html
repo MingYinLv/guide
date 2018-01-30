@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .map {
+            position: relative;
+        }
+
+        .box {
+            width: 50px;
+            height: 50px;
+            background: #000;
+            position: absolute;
+        }
+
+        .box.red {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div class="map"></div>
+<script>
+    let mapDom = document.querySelector('.map');
+    let n = 15;
+    let m = 15;
+    let map = [];
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            map[i] = map[i] || [];
+            map[i][j] = 0;
+            mapDom.innerHTML += `<div data-x="${i}" data-y="${j}" style="left:${j * 50}px;top:${i * 50}px" class="box ${m === 1 ? 'red' : ''}"></div>`;
+        }
+    }
+
+    mapDom.addEventListener('click', function (e) {
+        let target = e.target;
+        let x = Number(target.getAttribute('data-x'));
+        let y = Number(target.getAttribute('data-y'));
+        map[x][y] = map[x][y] ? 0 : 1;
+        map[x][y] === 1 ? target.classList.add('red') : target.classList.remove('red');
+    });
+
+</script>
+</body>
+</html>
