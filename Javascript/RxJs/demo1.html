@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>click</button>
+<span>0</span>
+
+<script src="./rx.js"></script>
+<script>
+
+    const observable = Rx.Observable.create((observer) => {
+        observer.next(1);
+        observer.next(2);
+        observer.next(3);
+        observer.complete();
+    });
+
+    console.log('just before subscribe');
+    observable.subscribe({
+        next: (v) => {
+            Rx.Scheduler.async.schedule(console.log, 0, v)
+        },
+        complete: () => console.log('complete'),
+    });
+    console.log('just after subscribe');
+</script>
+</body>
+</html>
