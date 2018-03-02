@@ -11,21 +11,10 @@
 <script src="./rx.js"></script>
 <script>
 
-    const observable = Rx.Observable.create((observer) => {
-        observer.next(1);
-        observer.next(2);
-        observer.next(3);
-        observer.complete();
-    });
-
-    console.log('just before subscribe');
-    observable.subscribe({
-        next: (v) => {
-            Rx.Scheduler.async.schedule(console.log, 0, v)
-        },
-        complete: () => console.log('complete'),
-    });
-    console.log('just after subscribe');
+    const source = Rx.Observable.range(0, 10);
+    source.pipe(
+        Rx.FilterOperator(x => x % 2 === 0)
+    )
 </script>
 </body>
 </html>
