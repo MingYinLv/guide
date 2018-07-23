@@ -1,13 +1,7 @@
-# Apollo Client（一）
+# Apollo Client
 
-### 开发环境
-OS：OSX
+最近 render props 
 
-IDE：webstorm
 
-node：v8.9.1
 
-npm：v5.5.1
-
-yarn：v0.24.5
 
