@@ -10,12 +10,14 @@
 var strStr = function (haystack, needle) {
 
   if (needle === '') return 0;
-  let nextStop = 0;
+  needle = needle.split('');
+  haystack = haystack.split('');
+  let len = needle.length;
   for (let i = 0; i < haystack.length; i++) {
     if (haystack[i] === needle[0]) {
       let isEquals = true;
-      for (let j = 0; j < needle.length; j++) {
-        if (haystack[i + j] !== needle[j]) {
+      for (let j = 0; j < len / 2; j++) {
+        if (haystack[i + j] !== needle[j] || haystack[i + len - j - 1] !== needle[len - j - 1]) {
           isEquals = false;
           break;
         }
@@ -29,5 +31,4 @@ var strStr = function (haystack, needle) {
   return -1;
 
 };
-
-console.log(strStr('aaaaa', 'bba'));
+console.log(strStr('hello', 'll'));
