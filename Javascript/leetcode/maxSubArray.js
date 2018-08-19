@@ -8,19 +8,14 @@
  * @return {number}
  */
 var maxSubArray = function (nums) {
-  let max = -Infinity;
-  let sum = 0;
-  for (let i = 0; i < nums.length; i++) {
-    sum = 0;
-    for (let j = i; j < nums.length; j++) {
-      sum += nums[j];
-      if (sum > max) {
-
-        max = sum;
-      }
-    }
+  let sum = nums[0];
+  let current = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    if(current < 0) current = nums[i];
+    else current += nums[i];
+    if(current > sum) sum = current;
   }
-  return max;
+  return sum;
 };
 
-console.log(maxSubArray([-2]));
+console.log(maxSubArray([-2, -4, -3, -5, -1, -2, -1, -5, 4]));
