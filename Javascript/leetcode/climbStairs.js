@@ -7,9 +7,16 @@
  * @return {number}
  */
 var climbStairs = function (n) {
-  if (n === 0) return 1;
-  else if (n < 0) return 0;
-  return climbStairs(n - 1) + climbStairs(n - 2);
+  if (n < 2) return n;
+  let one = 1;
+  let two = 2;
+  let result = 0;
+  for (let i = 2; i < n; i++) {
+    result = one + two;
+    one = two;
+    two = result;
+  }
+  return result;
 };
 
-console.log(climbStairs(20));
+console.log(climbStairs(100));
