@@ -7,16 +7,17 @@
  * @return {number}
  */
 var maxProfit = function (prices) {
-  if (prices.length === 0) return 0;
-  let max = 0;
-  for (let i = 0; i < prices.length - 1; i++) {
-    for (let j = i + 1; j < prices.length; j++) {
-      if (prices[j] - prices[i] > max) {
-        max = prices[j] - prices[i];
-      }
+  let buy = prices[0];
+  let profit = 0;
+  for (let i = 1; i < prices.length; i++) {
+    const price = prices[i];
+    if (price < buy) {
+      buy = price;
+    } else if (price - buy > profit) {
+      profit = price - buy;
     }
   }
-  return max;
+  return profit;
 };
 
-console.log(maxProfit([7, 6, 5, 3]));
+console.log(maxProfit([7,1]));
