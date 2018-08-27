@@ -20,7 +20,7 @@ var getRow = function(rowIndex) {
     }
     result.push(temp);
   }
-  return result[result.length - 1];
+  return result[rowIndex];
 };
 
 console.log(getRow(3));
