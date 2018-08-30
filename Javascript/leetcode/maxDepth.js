@@ -12,30 +12,18 @@ function TreeNode(val) {
  * @return {number}
  */
 var maxDepth = function (root) {
-  let max = 0;
-  let current = 1;
+  if (!root) return 0;
 
-  function next(node) {
-    if (!node) return;
-    current++;
-    next(node.left);
-    next(node.right);
-    current--;
-    if (current > max) {
-      max = current;
-    }
-  }
+  const left = maxDepth(root.left) + 1;
+  const right = maxDepth(root.right) + 1;
 
-  next(root);
-  return max;
+  return left > right ? left : right;
 };
 
 const tree = new TreeNode(1);
 tree.left = new TreeNode(2);
 tree.right = new TreeNode(2);
-
-
-
+tree.left.left = new TreeNode(3);
 
 console.log(maxDepth(tree));
 
