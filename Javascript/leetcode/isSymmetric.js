@@ -8,7 +8,6 @@ function TreeNode(val) {
   this.left = this.right = null;
 }
 
-let total = 0;
 /**
  * @param {TreeNode} p
  * @param {TreeNode} q
